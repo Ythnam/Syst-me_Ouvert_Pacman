@@ -71,7 +71,7 @@ public class Field extends JPanel implements ActionListener{
 	public Field(JFrame fram){
 		this.test = fram;
 		generatePacmanRandomly();
-		generateGhostRandomly(4);
+		generateGhostRandomly(1);
 		generateItemsRandomly();
 		//generateItemsRandomly(10, 5, 4, 3, 5, 1, 1, 1); // en test random pour les valeurs
 		this.setController(defautController(this.model));

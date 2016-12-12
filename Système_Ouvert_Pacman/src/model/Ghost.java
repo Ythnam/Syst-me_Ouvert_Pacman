@@ -10,6 +10,11 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import openSys.Context;
+import openSys.IntArt;
+import openSys.MyClassLoader;
+import openSys.Position;
+import openSys.RandomMoove;
 import view.Field;
 
 public class Ghost implements Runnable {
@@ -122,14 +127,26 @@ public class Ghost implements Runnable {
 
 				Thread.sleep(this.timeSleeping);
 
-				//tryToMove();
 
-				IAGhost();
+				//IAGhost();
+				//Context context = new Context(new RandomMoove());
+				//context.IARun(this.x, this.y, this.field);
+				//this.x = context.getX();
+				//this.y = context.getY();
+				try {
+					load();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				comparisonGhostPacman();
-
-
-				//this.field.getController().loose();
 
 				field.repaint();
 				if(this.field.getModel().getMap().getCounter()==0){
@@ -142,6 +159,26 @@ public class Ghost implements Runnable {
 		}
 	}
 
+	public void load() throws ClassNotFoundException, IllegalAccessException, InstantiationException{
+		ClassLoader parentClassLoader = MyClassLoader.class.getClassLoader();
+		MyClassLoader classLoader = new MyClassLoader(parentClassLoader);
+		Class myObjectClass = classLoader.loadClass("RandomMoove");
+		IntArt object1 = (IntArt) myObjectClass.newInstance();
+		Position object2 = (Position) myObjectClass.newInstance();
+		//create new class loader so classes can be reloaded.
+		classLoader = new MyClassLoader(parentClassLoader);
+		myObjectClass = classLoader.loadClass("RandomMoove");
+		object1 = (IntArt) myObjectClass.newInstance();
+		object2 = (Position) myObjectClass.newInstance();
+				
+		Context context = new Context(object1);
+		context.IARun(this.x, this.y, this.field);
+		this.x = context.getX();
+		this.y = context.getY();
+
+		
+	}
+	
 
 	/**
 	 * Cette méthode permet de faire avancer les fantomes en aléatoire
