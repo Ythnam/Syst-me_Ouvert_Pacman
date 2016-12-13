@@ -159,15 +159,15 @@ public class Ghost implements Runnable {
 		}
 	}
 
-	public void load() throws ClassNotFoundException, IllegalAccessException, InstantiationException{
+	public synchronized void load() throws ClassNotFoundException, IllegalAccessException, InstantiationException{
 		ClassLoader parentClassLoader = MyClassLoader.class.getClassLoader();
 		MyClassLoader classLoader = new MyClassLoader(parentClassLoader);
-		Class myObjectClass = classLoader.loadClass("RandomMoove");
+		Class myObjectClass = classLoader.loadClass("SmartRandomMoove");
 		IntArt object1 = (IntArt) myObjectClass.newInstance();
 		Position object2 = (Position) myObjectClass.newInstance();
 		//create new class loader so classes can be reloaded.
 		classLoader = new MyClassLoader(parentClassLoader);
-		myObjectClass = classLoader.loadClass("RandomMoove");
+		myObjectClass = classLoader.loadClass("SmartRandomMoove");
 		object1 = (IntArt) myObjectClass.newInstance();
 		object2 = (Position) myObjectClass.newInstance();
 				
@@ -179,57 +179,6 @@ public class Ghost implements Runnable {
 		
 	}
 	
-
-	/**
-	 * Cette méthode permet de faire avancer les fantomes en aléatoire
-	 */
-	private synchronized void tryToMove(){
-		int choice = rand.nextInt(4);
-		switch(choice){
-		case 0 : 
-			if(this.x<this.field.getXMAX()-1){
-				if(Map.getElementOnMap()[y][x+1]!='1'){this.x++;}
-			}
-			else {
-				if(Map.getElementOnMap()[y][0]!='1'){
-					this.x=0;
-				}
-			}
-			break;
-		case 1 :
-			if(this.x>0){
-				if(Map.getElementOnMap()[y][x-1]!='1'){this.x--;}
-			}
-			else {
-				if(Map.getElementOnMap()[y][this.field.getXMAX()-1]!='1'){
-					this.x = this.field.getXMAX()-1;
-				}
-			}
-			break;
-		case 2 :
-			if(this.y < this.field.getYMAX()-1){
-				if(Map.getElementOnMap()[y+1][x]!='1'){
-					this.y++;
-				}
-			}
-			else {
-				if(Map.getElementOnMap()[0][x]!='1'){
-					this.y=0;
-				}
-			}
-			break;
-		case 3 :
-			if(this.y> 0){
-				if(Map.getElementOnMap()[y-1][x]!='1') this.y--;
-			}
-			else {
-				if(Map.getElementOnMap()[(this.field.getYMAX()-1)][x]!='1'){
-					this.y = this.field.getYMAX()-1;
-				}
-			}
-			break;
-		}
-	}
 
 	// IA random des ghost   
 
