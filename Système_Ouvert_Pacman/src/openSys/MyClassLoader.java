@@ -23,6 +23,9 @@ public class MyClassLoader extends ClassLoader{
 		case "SmartRandomMoove" :
 			this.classes = "SmartRandomMoove";
 			break;
+		case "ChasingMoove" :
+			this.classes = "ChasingMoove";
+			break;
 		default :
 			return super.loadClass(name);
 		}
