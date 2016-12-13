@@ -12,9 +12,9 @@ import javax.imageio.ImageIO;
 
 import openSys.Context;
 import openSys.IntArt;
-import openSys.MyClassLoader;
 import openSys.Position;
-import openSys.RandomMoove;
+import openSys.ghost.MyGhostClassLoader;
+import openSys.ghost.RandomMoove;
 import view.Field;
 
 public class Ghost implements Runnable {
@@ -161,8 +161,8 @@ public class Ghost implements Runnable {
 	}
 
 	public synchronized void load() throws ClassNotFoundException, IllegalAccessException, InstantiationException{
-		ClassLoader parentClassLoader = MyClassLoader.class.getClassLoader();
-		MyClassLoader classLoader = new MyClassLoader(parentClassLoader);
+		ClassLoader parentClassLoader = MyGhostClassLoader.class.getClassLoader();
+		MyGhostClassLoader classLoader = new MyGhostClassLoader(parentClassLoader);
 		
 		String name = "";
 		
@@ -181,12 +181,12 @@ public class Ghost implements Runnable {
 
 		}
 		
-		
+		//name = "UnpossibleMoove";
 		Class myObjectClass = classLoader.loadClass(name/*"ChasingMoove"*/);
 		IntArt object1 = (IntArt) myObjectClass.newInstance();
 		Position object2 = (Position) myObjectClass.newInstance();
 		//create new class loader so classes can be reloaded.
-		classLoader = new MyClassLoader(parentClassLoader);
+		classLoader = new MyGhostClassLoader(parentClassLoader);
 		myObjectClass = classLoader.loadClass(name/*"ChasingMoove"*/);
 		object1 = (IntArt) myObjectClass.newInstance();
 		object2 = (Position) myObjectClass.newInstance();

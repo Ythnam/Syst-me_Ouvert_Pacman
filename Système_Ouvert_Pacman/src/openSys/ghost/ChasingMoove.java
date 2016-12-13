@@ -1,8 +1,10 @@
-package openSys;
+package openSys.ghost;
 
 import java.util.ArrayList;
 
 import model.Map;
+import openSys.IntArt;
+import openSys.Position;
 import view.Field;
 
 public class ChasingMoove extends Position implements IntArt {

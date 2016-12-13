@@ -1,4 +1,4 @@
-package openSys;
+package openSys.ghost;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,11 +7,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class MyClassLoader extends ClassLoader{
+public class MyGhostClassLoader extends ClassLoader{
 
 	private String classes = "";
 	
-	public MyClassLoader(ClassLoader parent) {
+	public MyGhostClassLoader(ClassLoader parent) {
 		super(parent);
 	}
 
@@ -26,13 +26,16 @@ public class MyClassLoader extends ClassLoader{
 		case "ChasingMoove" :
 			this.classes = "ChasingMoove";
 			break;
+		case "UnpossibleMoove" :
+			this.classes = "UnpossibleMoove";
+			break;
 		default :
 			return super.loadClass(name);
 		}
 		/*if(!"RandomMoove".equals(name))
 			return super.loadClass(name);*/
 		try {
-			String url = "file:C:/Users/phild/git3/Système_Ouvert_Pacman/bin/openSys/"+this.classes+".class"; // à revoir
+			String url = "file:C:/Users/phild/git3/Système_Ouvert_Pacman/bin/openSys/ghost/"+this.classes+".class"; // à revoir
 			URL myUrl = new URL(url);
 			URLConnection connection = myUrl.openConnection();
 			InputStream input = connection.getInputStream();
@@ -44,7 +47,7 @@ public class MyClassLoader extends ClassLoader{
 			}
 			input.close();
 			byte[] classData = buffer.toByteArray();
-			return defineClass("openSys."+this.classes,
+			return defineClass("openSys.ghost."+this.classes,
 					classData, 0, classData.length);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

@@ -1,10 +1,12 @@
-package openSys;
+package openSys.ghost;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
 import model.Map;
+import openSys.IntArt;
+import openSys.Position;
 import view.Field;
 
 public class SmartRandomMoove extends Position implements IntArt {
