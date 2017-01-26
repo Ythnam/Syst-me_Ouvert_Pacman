@@ -11,21 +11,22 @@ public class Teleportation extends Position implements IntArt{
 		this.x = x;
 		this.y = y;
 		this.field = field;
+		teleportation();
 		
 	}
 	
 	public void teleportation(){
-		
+		this.x = this.x + 1;
 	}
 
 	@Override
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 }

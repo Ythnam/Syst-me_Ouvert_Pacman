@@ -66,6 +66,7 @@ public class Field extends JPanel implements ActionListener{
 	private JButton nextlvl;
 	private JFrame frame = new JFrame();
 	private JFrame test = new JFrame();
+	private String strategie;
 
 
 	public Field(JFrame fram){
@@ -487,6 +488,24 @@ public class Field extends JPanel implements ActionListener{
 
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+	
+	
+	public void addClassName() {
+		// TODO Auto-generated method stub
+		if(!this.model.getPacman().isOnPause())
+			this.getController().gamePause();
+
+
+		strategie = JOptionPane.showInputDialog(frame, "Entrez le nom de votre stratégie");
+		// Pour régler le fait d'annuler la commande
+		if(strategie != null){
+			JOptionPane.showMessageDialog(frame, strategie +" est votre choix ");
+		}
+	}
+	
+	public String getStrategie(){
+		return this.strategie;
 	}
 
 

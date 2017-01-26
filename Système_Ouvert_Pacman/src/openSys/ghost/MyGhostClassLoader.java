@@ -1,6 +1,7 @@
 package openSys.ghost;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -35,7 +36,10 @@ public class MyGhostClassLoader extends ClassLoader{
 		/*if(!"RandomMoove".equals(name))
 			return super.loadClass(name);*/
 		try {
-			String url = "file:C:/Users/phild/git3/Système_Ouvert_Pacman/bin/openSys/ghost/"+this.classes+".class"; // à revoir
+			File file = new File("bin/openSys/ghost/"+this.classes+".class");
+			String path = file.getCanonicalPath();
+			String url = "file:"+path;
+			//String url1 = "file:C:/Users/phild/git3/Système_Ouvert_Pacman/bin/openSys/ghost/"+this.classes+".class";
 			URL myUrl = new URL(url);
 			URLConnection connection = myUrl.openConnection();
 			InputStream input = connection.getInputStream();

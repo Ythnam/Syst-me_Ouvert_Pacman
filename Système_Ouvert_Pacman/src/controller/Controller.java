@@ -131,6 +131,8 @@ public class Controller implements KeyListener {
 				view.nextlvl();
 				view.getModel().reset();
 				view.repaint();
+			} else if(source==KeyEvent.VK_A){
+				view.addClassName();
 			}
 			else{
 

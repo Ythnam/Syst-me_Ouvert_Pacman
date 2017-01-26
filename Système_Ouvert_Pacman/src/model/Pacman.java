@@ -1,10 +1,17 @@
 package model;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
+
+import openSys.Context;
+import openSys.IntArt;
+import openSys.Position;
+import openSys.ghost.MyGhostClassLoader;
+import openSys.pacman.MyPacmanClassLoader;
 import view.Field;
 
 public class Pacman implements Runnable{
@@ -36,6 +43,8 @@ public class Pacman implements Runnable{
 	//chrono mode PowerUp
 	private double chrono = 0;
 	private Chrono chron = new Chrono();
+	
+	private String strategyName = "";
 
 	public void setImageIcon(ImageIcon imageIcon){
 		this.imageIcon = imageIcon;
@@ -216,22 +225,36 @@ public class Pacman implements Runnable{
 				}
 				Thread.sleep(200);
 
-				if(right){
-					goRight();
-					this.field.getController().testitem();
+				this.strategyName = this.field.getStrategie(); // Stratégie est le nom de la classe qu'on veut charger
+				System.out.println(this.strategyName);
+				File file = new File("bin/openSys/pacman/"+this.strategyName+".class");
+				if(file.exists()){
+					System.out.println("ok");
+					try {
+						load();
+					} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else{
+					if(right){
+						goRight();
+						this.field.getController().testitem();
+					}
+					else if (left){
+						goLeft();
+						this.field.getController().testitem();
+					}
+					else if (top){
+						goTop();
+						this.field.getController().testitem();
+					}
+					else if (down){
+						goBot();
+						this.field.getController().testitem();
+					}
 				}
-				else if (left){
-					goLeft();
-					this.field.getController().testitem();
-				}
-				else if (top){
-					goTop();
-					this.field.getController().testitem();
-				}
-				else if (down){
-					goBot();
-					this.field.getController().testitem();
-				}
+
 				field.repaint();
 				if(this.field.getModel().getMap().getCounter()==0){
 					Thread.sleep(10);
@@ -257,6 +280,28 @@ public class Pacman implements Runnable{
 			e.printStackTrace();
 		}
 
+	}
+	
+	
+	public synchronized void load() throws ClassNotFoundException, IllegalAccessException, InstantiationException{
+		ClassLoader parentClassLoader = MyPacmanClassLoader.class.getClassLoader();
+		MyPacmanClassLoader classLoader = new MyPacmanClassLoader(parentClassLoader);
+		Class myObjectClass = classLoader.loadClass(this.strategyName);
+		System.out.println("Apres le 1er loadCLass");
+		IntArt object1 = (IntArt) myObjectClass.newInstance();
+		Position object2 = (Position) myObjectClass.newInstance();
+		//create new class loader so classes can be reloaded.
+		classLoader = new MyPacmanClassLoader(parentClassLoader);
+		myObjectClass = classLoader.loadClass(this.strategyName);
+		object1 = (IntArt) myObjectClass.newInstance();
+		object2 = (Position) myObjectClass.newInstance();
+				
+		Context context = new Context(object1);
+		context.IARun(this.x, this.y, this.field);
+		this.x = context.getX();
+		this.y = context.getY();
+
+		
 	}
 
 	/**

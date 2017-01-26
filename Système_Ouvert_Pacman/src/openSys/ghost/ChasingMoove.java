@@ -7,7 +7,7 @@ import openSys.IntArt;
 import openSys.Position;
 import view.Field;
 
-public class ChasingMoove extends Position implements IntArt {
+public class ChasingMoove extends Position implements IntArt{
 
 	private int cache = -10;
 

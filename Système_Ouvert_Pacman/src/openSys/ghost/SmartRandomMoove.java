@@ -16,7 +16,7 @@ public class SmartRandomMoove extends Position implements IntArt {
 	
 	@Override
 	public void IARun(int x, int y, Field field) {
-		this.x = x;
+		this.x =x;
 		this.y = y;
 		this.field = field;
 		IAGhostRandomMoove();
