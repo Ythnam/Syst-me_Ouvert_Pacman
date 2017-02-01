@@ -226,12 +226,12 @@ public class Pacman implements Runnable{
 				Thread.sleep(200);
 
 				this.strategyName = this.field.getStrategie(); // Stratégie est le nom de la classe qu'on veut charger
-				System.out.println(this.strategyName);
+				//System.out.println(this.strategyName);
 				File file = new File("bin/openSys/pacman/"+this.strategyName+".class");
 				if(file.exists()){
-					System.out.println("ok");
 					try {
-						load();
+						loading();
+						this.field.getController().testitem();
 					} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -282,12 +282,34 @@ public class Pacman implements Runnable{
 
 	}
 	
+	/**
+	 * This methode is used to load class and add points
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public synchronized void loading() throws ClassNotFoundException, IllegalAccessException, InstantiationException{
+		load();
+		//
+		if(Map.getElementOnMap()[y][x]!='1' && Map.getElementOnMap()[y][x]!='7'){ //pas un mur ni le spawn 
+			if(Map.getFoodForPacman()[y][x] == true){
+				pacmanScore+=1000 ;
+				this.field.updateScoreAndLife();
+				this.field.getModel().getMap().setCounter(this.field.getModel().getMap().getCounter() - 1);
+				Map.getFoodForPacman()[y][x]=false;
+				this.saver();
+			}
+		}
+		//
+		
+	}
+	
 	
 	public synchronized void load() throws ClassNotFoundException, IllegalAccessException, InstantiationException{
 		ClassLoader parentClassLoader = MyPacmanClassLoader.class.getClassLoader();
 		MyPacmanClassLoader classLoader = new MyPacmanClassLoader(parentClassLoader);
 		Class myObjectClass = classLoader.loadClass(this.strategyName);
-		System.out.println("Apres le 1er loadCLass");
+
 		IntArt object1 = (IntArt) myObjectClass.newInstance();
 		Position object2 = (Position) myObjectClass.newInstance();
 		//create new class loader so classes can be reloaded.
