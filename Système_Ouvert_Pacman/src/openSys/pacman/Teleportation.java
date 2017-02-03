@@ -38,9 +38,6 @@ public class Teleportation extends Position implements IntArt{
 	
 	public void teleportation(){
 		ArrayList<Point> alP = this.getCoordOfFood();
-		/*for(Point p : alP){
-			System.out.println("x : "+p.getX()+"      y : "+p.getY());
-		}*/
 
 		Random rand = new Random();
 		int randOnPoint = rand.nextInt(alP.size());
